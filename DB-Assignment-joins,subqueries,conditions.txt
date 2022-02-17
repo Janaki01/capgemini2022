@@ -1,0 +1,192 @@
+1. Write a query to display the name, including first_name and last_name and salary for all employees whose salary is out of the range between $10,000 and $15,000.
+Sample table: employees
+ans: SELECT first_name, last_name, salary FROM employees
+     WHERE salary NOT BETWEEN 10000 AND 15000;
+
+2. Write a query to display the name, including first_name and last_name, and department ID who works in the department 30 or 100 and 
+arrange the result in ascending order according to the department ID.
+ANS:SELECT first_name, last_name, department_id FROM employees
+    WHERE department_id IN (30, 100) ORDER BY  department_id  ASC;
+
+3.Write a query to get the first name of the employee who holds the letter 'c' and 'e' in the first name.
+ANS:SELECT first_name FROM employees
+    WHERE first_name LIKE '%c%' AND first_name LIKE '%e%';
+
+4.Write a query to display the last name of employees having 'e' as the third character.
+ans: SELECT last_name FROM employees WHERE last_name LIKE '__e%';
+
+5.Write a query to select all information of employees whose last name is either 'JONES' or 'BLAKE' or 'SCOTT' or 'KING' or 'FORD'.
+ans: SELECT * FROM employees 
+     WHERE last_name IN('JONES', 'BLAKE', 'SCOTT', 'KING', 'FORD'); 
+
+6.Write a query to find the number of jobs available in the employees table.
+ans: SELECT COUNT(DISTINCT job_id) FROM employees;
+
+7.Write a query to get the total salaries payable to employees.
+ans: SELECT SUM(salary) FROM employees;
+
+8.Write a query to get the minimum salary from employees table.
+ans: SELECT MIN(salary) FROM employees;
+
+9.Write a query to get the maximum salary of an employee working as a Programmer(IT_PROG).
+ans: SELECT MAX(salary) FROM employees 
+     WHERE job_id = 'IT_PROG';
+
+10.Write a query to get the average salary and number of employees working in the department which ID is 90.
+-------------+-------------+-------------+----------+--------------------+------------+------------+----------+----------------+------------+---------------+
+| EMPLOYEE_ID | FIRST_NAME  | LAST_NAME   | EMAIL    | PHONE_NUMBER       | HIRE_DATE  | JOB_ID     | SALARY   | COMMISSION_PCT | MANAGER_ID | DEPARTMENT_ID |
++-------------+-------------+-------------+----------+--------------------+------------+------------+----------+----------------+------------+---------------+
+|         100 | Steven      | King        | SKING    | 515.123.4567       | 1987-06-17 | AD_PRES    | 24000.00 |           0.00 |          0 |   		  90 |
+|         101 | Neena       | Kochhar     | NKOCHHAR | 515.123.4568       | 1987-06-18 | AD_VP      | 17000.00 |           0.00 |        100 |            90 |
+|         102 | Lex         | De Haan     | LDEHAAN  | 515.123.4569       | 1987-06-19 | AD_VP      | 17000.00 |           0.00 |        100 |            90 |
+|         103 | Alexander   | Hunold      | AHUNOLD  | 590.423.4567       | 1987-06-20 | IT_PROG    |  9000.00 |           0.00 |        102 |            60 |
+|         104 | Bruce       | Ernst       | BERNST   | 590.423.4568       | 1987-06-21 | IT_PROG    |  6000.00 |           0.00 |        103 |            60 |
+|         105 | David       | Austin      | DAUSTIN  | 590.423.4569       | 1987-06-22 | IT_PROG    |  4800.00 |           0.00 |        103 |            60 |
+|         106 | Valli       | Pataballa   | VPATABAL | 590.423.4560       | 1987-06-23 | IT_PROG    |  4800.00 |           0.00 |        103 |            60 |
+|        |
++-------------+-------------+-------------+----------+--------------------+------------+------------+----------+----------------+------------+---------------+
+ans: SELECT AVG(salary),count(*) FROM employees 
+     WHERE department_id = 90;
+
+subqueries
+
+11.Write a query to find the first_name, last_name and salaries of the employees who have a higher salary than the employee whose last_name is Bull.
+ans: SELECT FIRST_NAME, LAST_NAME, SALARY FROM employees 
+     WHERE SALARY > (SELECT salary FROM employees WHERE last_name = 'Bull');
+
+12.Write a SQL subquery to find the first_name and last_name of all employees who works in the IT department.
+ans: SELECT first_name, last_name FROM employees 
+     WHERE department_id IN (SELECT department_id FROM departments WHERE department_name='IT');
+
+13.Write a SQL subquery to find the first_name and last_name of the employees under a manager who works for a department based in the United States.
+
+Hint : Write single-row and multiple-row subqueries
+ans: SELECT first_name, last_name FROM employees 
+     WHERE manager_id in (select employee_id 
+     FROM employees WHERE department_id 
+     IN (SELECT department_id FROM departments WHERE location_id 
+     IN (select location_id from locations where country_id='US')));
+
+14. Write a SQL subquery to find the first_name and last_name of the employees who are working as a manager.
+ans: SELECT first_name, last_name FROM employees 
+     WHERE (employee_id IN (SELECT manager_id FROM employees));
+
+15.Write a SQL subquery to find the first_name, last_name and salary, which is greater than the average salary of the employees.
+ans: SELECT * FROM employees 
+     WHERE salary > 
+     ALL(SELECT avg(salary)FROM employees GROUP BY department_id);
+
+JOIN
+
+16. Write a query to find the addresses (location_id, street_address, city, state_province, country_name) of all the departments.
+Hint : Use NATURAL JOIN.
+ans: SELECT location_id, street_address, city, state_province, country_name FROM locations
+     NATURAL JOIN countries;
+
+Sample table: locations
+
+location_id  street_address        postal_code  city        state_province  country_id
+-----------  --------------------  -----------  ----------  --------------  ----------
+1000         1297 Via Cola di Rie  989          Roma                        IT
+1100         93091 Calle della Te  10934        Venice                      IT
+1200         2017 Shinjuku-ku      1689         Tokyo       Tokyo Prefectu  JP
+1300         9450 Kamiya-cho       6823         Hiroshima                   JP
+2800         Rua Frei Caneca 1360  01307-002    Sao Paulo   Sao Paulo       BR
+2900         20 Rue des Corps-Sai  1730         Geneva      Geneve          CH
+3000         Murtenstrasse 921     3095         Bern        BE              CH
+3100         Pieter Breughelstraa  3029SK       Utrecht     Utrecht         NL
+3200         Mariano Escobedo 999  11932        Mexico Cit  Distrito Feder  MX
+
+
+Sample table: countries
+
+AR          Argentina     2
+AU          Australia     3
+BE          Belgium       1
+BR          Brazil        2
+CA          Canada        2
+CH          Switzerland   1
+CN          China         3
+DE          Germany       1
+DK          Denmark       1
+EG          Egypt         4
+FR          France        1
+HK          HongKong      3
+IL          Israel        4
+IN          India         3
+IT          Italy         1
+JP          Japan         3
+KW          Kuwait        4
+MX          Mexico        2
+NG          Nigeria       4
+NL          Netherlands   1
+SG          Singapore     3
+UK          United Kingd  1
+US          United State  2
+ZM          Zambia        4
+ZW          Zimbabwe      4
+
+17.Write a query to make a join with employees and departments table to find the name of the employee, including first_name and last name, department ID and name of departments.
+ans: SELECT first_name, last_name, department_id, department_name FROM employees 
+     JOIN departments USING (department_id);
+
+Sample table: employees
++-------------+-------------+-------------+----------+--------------------+------------+------------+----------+----------------+------------+---------------+
+| EMPLOYEE_ID | FIRST_NAME  | LAST_NAME   | EMAIL    | PHONE_NUMBER       | HIRE_DATE  | JOB_ID     | SALARY   | COMMISSION_PCT | MANAGER_ID | DEPARTMENT_ID |
++-------------+-------------+-------------+----------+--------------------+------------+------------+----------+----------------+------------+---------------+
+|         100 | Steven      | King        | SKING    | 515.123.4567       | 1987-06-17 | AD_PRES    | 24000.00 |           0.00 |          0 |   		  90 |
+|         101 | Neena       | Kochhar     | NKOCHHAR | 515.123.4568       | 1987-06-18 | AD_VP      | 17000.00 |           0.00 |        100 |            90 |
+|         102 | Lex         | De Haan     | LDEHAAN  | 515.123.4569       | 1987-06-19 | AD_VP      | 17000.00 |           0.00 |        100 |            90 |
+|         103 | Alexander   | Hunold      | AHUNOLD  | 590.423.4567       | 1987-06-20 | IT_PROG    |  9000.00 |           0.00 |        102 |            60 |
+|         104 | Bruce       | Ernst       | BERNST   | 590.423.4568       | 1987-06-21 | IT_PROG    |  6000.00 |           0.00 |        103 |            60 |
+|         199 | Douglas     | Grant       | DGRANT   | 650.507.9844       | 1987-09-24 | SH_CLERK   |  2600.00 |           0.00 |        124 |            50 |
+|         200 | Jennifer    | Whalen      | JWHALEN  | 515.123.4444       | 1987-09-25 | AD_ASST    |  4400.00 |           0.00 |        101 |            10 |
+|         201 | Michael     | Hartstein   | MHARTSTE | 515.123.5555       | 1987-09-26 | MK_MAN     | 13000.00 |           0.00 |        100 |            20 |
+|         202 | Pat         | Fay         | PFAY     | 603.123.6666       | 1987-09-27 | MK_REP     |  6000.00 |           0.00 |        201 |            20 |
+|         203 | Susan       | Mavris      | SMAVRIS  | 515.123.7777       | 1987-09-28 | HR_REP     |  6500.00 |           0.00 |        101 |            40 |
+|         204 | Hermann     | Baer        | HBAER    | 515.123.8888       | 1987-09-29 | PR_REP     | 10000.00 |           0.00 |        101 |            70 |
+|         205 | Shelley     | Higgins     | SHIGGINS | 515.123.8080       | 1987-09-30 | AC_MGR     | 12000.00 |           0.00 |        101 |           110 |
+|         206 | William     | Gietz       | WGIETZ   | 515.123.8181       | 1987-10-01 | AC_ACCOUNT |  8300.00 |           0.00 |        205 |           110 |
++-------------+-------------+-------------+----------+--------------------+------------+------------+----------+----------------+------------+---------------+
+
+Sample table: departments
+
++---------------+----------------------+------------+-------------+
+| DEPARTMENT_ID | DEPARTMENT_NAME      | MANAGER_ID | LOCATION_ID |
++---------------+----------------------+------------+-------------+
+|            10 | Administration       |        200 |        1700 |
+|            20 | Marketing            |        201 |        1800 |
+|            30 | Purchasing           |        114 |        1700 |
+|            40 | Human Resources      |        203 |        2400 |
+|            50 | Shipping             |        121 |        1500 |
+|            60 | IT                   |        103 |        1400 |
+|            70 | Public Relations     |        204 |        2700 |
+|            80 | Sales                |        145 |        2500 |
+|            90 | Executive            |        100 |        1700 |
+|           100 | Finance              |        108 |        1700 |
+|           110 | Accounting           |        205 |        1700 |
+|           120 | Treasury             |          0 |        1700 |
+|           130 | Corporate Tax        |          0 |        1700 |
+|           140 | Control And Credit   |          0 |        1700 |
+|           150 | Shareholder Services |          0 |        1700 |
+|           160 | Benefits             |          0 |        1700 |
+|           170 | Manufacturing        |          0 |        1700 |
+|           180 | Construction         |          0 |        1700 |
+|           190 | Contracting          |          0 |        1700 |
+|           200 | Operations           |          0 |        1700 |
+|           210 | IT Support           |          0 |        1700 |
+|           220 | NOC                  |          0 |        1700 |
+|           230 | IT Helpdesk          |          0 |        1700 |
+|           240 | Government Sales     |          0 |        1700 |
+|           250 | Retail Sales         |          0 |        1700 |
+|           260 | Recruiting           |          0 |        1700 |
+|           270 | Payroll              |          0 |        1700 |
++---------------+----------------------+------------+-------------+
+
+
+
+
+
+
+
+
