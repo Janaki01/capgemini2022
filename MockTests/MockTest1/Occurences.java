@@ -1,4 +1,4 @@
-package Day1;
+package MockTest1;
 
 public class Occurences {
 	public static void main(String[] args) {

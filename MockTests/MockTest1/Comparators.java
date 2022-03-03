@@ -1,4 +1,4 @@
-package Day1;
+package MockTest1;
 
 import java.util.*;
 
