@@ -10,5 +10,5 @@ import com.demo.pojo.Department;
 public interface DepartmentService {
 	// POST
 	Department addDepartmentDetails(Department department);   //done
-	
+	Department saveDepartmentdetailstoProduct(Department department);
 }

@@ -7,8 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
+import com.demo.pojo.Brand;
 import com.demo.pojo.Department;
+import com.demo.pojo.Product;
 import com.demo.repositary.Departmentrepositary;
 import com.demo.service.DepartmentService;
 
@@ -23,7 +24,18 @@ public class DepartmentServiceImp implements DepartmentService {
 	 */
 	@Override
 	public Department addDepartmentDetails(Department department) {
-		// TODO Auto-generated method stub
+
 		return departmentRespositary.save(department);
 	}
+		
+
+	public Department saveDepartmentdetailstoProduct(Department department) {
+		List<Product> product = department.getProductList();
+        department.setProductList(product);
+        Product p = new Product();
+        p.setDepartments(department);
+        department = departmentRespositary.save(department);
+        return department;
+	}
+
 }

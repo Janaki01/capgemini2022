@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 
 import com.demo.pojo.Brand;
+import com.demo.pojo.Product;
 import com.demo.repositary.Brandrepositary;
 import com.demo.service.BrandService;
 
@@ -23,7 +24,21 @@ public class BrandServiceImp implements BrandService {
 	 */
 	@Override
 	public Brand addBrandDetails(Brand brand) {
-		// TODO Auto-generated method stub
 		return brandRespositary.save(brand);
+	}
+
+	public Optional<Brand> getDetailsById(long id) {
+		Optional<Brand> detailsOfbrand = brandRespositary.findById(id);
+		return detailsOfbrand;
+	}
+
+	public Brand saveBranddetailstoProduct(Brand brand) {
+		List<Product> product = brand.getProductList();
+        brand.setProductList(product);
+        Product p = new Product(); 
+        p.setBrands(brand);
+        brand = brandRespositary.save(brand);
+        return brand;
+         
 	}
 }

@@ -12,29 +12,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.pojo.Brand;
-import com.demo.serviceipl.BrandServiceImp;
+import com.demo.pojo.Department;
+import com.demo.serviceipl.DepartmentServiceImp;
 /**
  * @author Admin
  *
  */
 @RestController
-@RequestMapping("/brand")
-public class BrandController {
+@RequestMapping("/depart")
+public class DepartmentController {
 
 	//dependency injected her of service class
 	@Autowired
-	BrandServiceImp brandServiceImp;
+	DepartmentServiceImp departmentServiceImp;
     
 	/**
-	 * @param brand
+	 * @param department
 	 * @return
 	 */ 
-	@PostMapping(value = "/addbrand")
-	public String addBrandDetailsBy(@RequestBody Brand brand) {
+	@PostMapping(value = "/adddepartment")
+	public String addDepartmentDetailsBy(@RequestBody Department department) {
 
-		Brand b = brandServiceImp.addBrandDetails(brand);
+		Department d = departmentServiceImp.addDepartmentDetails(department);
 
-		if (b != null) {
+		if (d != null) {
 			return "insert sucessfully";
 
 		} else {
@@ -42,5 +43,13 @@ public class BrandController {
 			return "insert not sucessfully";
 		}
 
+	} 
+	@PostMapping(value = "/adddepartmentwithproduct")
+	public Department saveDepartment(@RequestBody Department department) {
+		
+		Department d = departmentServiceImp.saveDepartmentdetailstoProduct(department);
+		
+		return d;
+		
 	}
 }

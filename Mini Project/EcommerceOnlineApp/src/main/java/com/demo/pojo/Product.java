@@ -12,9 +12,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
 @Entity
@@ -38,17 +43,39 @@ public class Product {
 	@Column
 	private String date;
 	
-	@ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-	@JoinTable(name = "product_ratings", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rating_id", referencedColumnName = "id"))
-    private Collection<Rating> ratings;
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "rating_id")
+	@JsonBackReference
+    private Rating ratings;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("productList")
+	private Brand brands;
 	
-	public Collection<Rating> getRatings() {
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("productList")
+	private Department departments;
+	
+	public Brand getBrands() {
+		return brands;
+	}
+	public void setBrands(Brand brands) {
+		this.brands = brands;
+	}
+	
+	public Rating getRatings() {
 		return ratings;
 	}
-	public void setRatings(Collection<Rating> ratings) {
+	public void setRatings(Rating ratings) {
 		this.ratings = ratings;
-
+	}
+	public Department getDepartments() {
+		return departments;
+	}
+	public void setDepartments(Department department) {
+		this.departments = departments;
 	}
 	public long getId() {
 		return id;

@@ -63,6 +63,14 @@ public class RatingController {
 		}
 
 	}
+	@PostMapping(value = "/addratingwithproduct")
+	public Rating saveRating(@RequestBody Rating rate) {
+		
+		Rating r = ratingServiceImp.saveratedetailstoprod(rate);
+		
+		return r;
+		
+	}
 	
 }
 

@@ -46,36 +46,7 @@ public class ProductServiceImp implements ProductService {
 			List<Product> prodList = productRespositary.findByName(name);
 			return prodList;
 		}
+	
+			
 		
-			
-
-		public Product productRatingMapping(Product product, Rating rating) {
-			Product newproduct = new Product();
-			newproduct.setName(product.getName());
-			newproduct.setColor(product.getColor());		
-			newproduct.setHeight(product.getHeight());
-			newproduct.setDate(product.getDate());
-
-
-			
-			Set<Product> settingprod = new HashSet<Product>();
-			settingprod.add(product);
-			// from admin
-			rating.setRating(rating.getRating());
-			rating.setNumberofsubscribers(rating.getNumberofsubscribers());
-
-			Set<Rating> rate = new HashSet<Rating>();
-			rate.add(rating);
-
-			//@ many to many assoctioatn
-			
-			newproduct.setRatings(rate); // merging product plus rating
-			
-			Product p= productRespositary.save(newproduct);
-			
-			
-			return p;
-
-		}
-
 	}

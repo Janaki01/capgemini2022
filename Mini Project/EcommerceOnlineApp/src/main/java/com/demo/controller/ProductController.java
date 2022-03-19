@@ -63,31 +63,16 @@ public class ProductController {
 
 	}
 	
-	@GetMapping(value = "/getprodbydate/{date}")
-	public List<Product> getListOfProductsByDate(@PathVariable("date") String prodDate){
-		List<Product> list = productServiceImp.getListOfProductsByDate(prodDate);
+	@GetMapping(value = "/getproductbydate/{date}")
+	public List<Product> getListOfProductsByDate(@PathVariable("date") String productDate){
+		List<Product> list = productServiceImp.getListOfProductsByDate(productDate);
 		return list;
 	}
 	
-	@GetMapping(value = "/getprodbyname/{name}")
-	public List<Product> getListOfProductsByName(@PathVariable("name") String prodname){
-		List<Product> list = productServiceImp.getListOfProductsByName(prodname);
+	@GetMapping(value = "/getproductbyname/{name}")
+	public List<Product> getListOfProductsByName(@PathVariable("name") String productname){
+		List<Product> list = productServiceImp.getListOfProductsByName(productname);
 		return list;
-	}
-	
-
-	@PostMapping(value = "/addproductAndratinForAdmin")
-	public String addproductAndratinInfoForAdmin(@RequestBody Product product,@RequestBody Rating rating) {
-		  
-	Product p=	productServiceImp.productRatingMapping(product,rating);
-		
-
-		if (p != null) {
-			return "inserted successfully";
-		} else {
-			return "not inserted";
-		}
 	}
 	
 }
-

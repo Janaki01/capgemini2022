@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
+import com.demo.pojo.Product;
 import com.demo.pojo.Rating;
 import com.demo.repositary.Ratingrepositary;
 import com.demo.service.RatingService;
@@ -32,6 +32,12 @@ public class RatingServiceImp implements RatingService {
 		Optional<Rating> detailsOfrating = ratingtRespositary.findById(id);
 		return detailsOfrating;
 	}
-
+	public Rating saveratedetailstoprod(Rating rate) {
+		
+		Product product = rate.getProduct();
+        product.setRatings(rate);
+        rate = ratingtRespositary.save(rate);
+        return rate;
+	}
 
 	}

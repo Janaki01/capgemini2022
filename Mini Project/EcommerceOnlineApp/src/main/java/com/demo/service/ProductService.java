@@ -14,5 +14,5 @@ public interface ProductService {
 	Optional<Product> getDetailsById(long id);    //done
 	List<Product> getListOfProductsByDate(String date);
 	List<Product> getListOfProductsByName(String name);
-	// Product addproductAndratinInfoForAdmin(Product product,Rating rating);
+
 }
